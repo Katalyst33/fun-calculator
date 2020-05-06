@@ -5,7 +5,8 @@
                 Calculator Game
             </h1>
 
-            <p id="answer" class="has-background-grey-lighter py-1">Answer:{{answer}}</p>
+            <p id="answer" class="has-background-grey-lighter py-1">Answer:{{answer}} <br>  {{operator}}</p>
+
 
 
             <section class="container mx-5 px-5 py-5">
@@ -45,16 +46,16 @@
                                     v-model="operator">
                                 <option disabled value="">Please select one
                                 </option>
-                                <option value="+">+ (Addition)</option>
-                                <option value="-">-(Subtraction)</option>
-                                <option value="/">/(Division)</option>
-                                <option value="*">*(Multiply)</option>
+                                <option value="+">Addition</option>
+                                <option value="-">Subtraction</option>
+                                <option value="/">Division</option>
+                                <option value="*">Multiply</option>
                             </select>
                         </div>
                         <button @click="equals" class="button is-dark mx-4">Get answer</button>
                         <button @click="equals" class="button is-warning">submit</button>
                     </div>
-                    <h1 class="has-text-success is-size-1">Score:50</h1>
+                    <h1 class="has-text-success is-size-7">Score:50</h1>
                 </div>
             </section>
 
@@ -70,8 +71,6 @@
             return {
                 valueA: 3,
                 valueB: 4,
-                min: 1,
-                max: 10,
                 answer: null,
                 operator: "???",
                 operators: ['-', '+', '*', '/'],
@@ -81,14 +80,14 @@
 
         created: function () {
             this.getRandomNumber()
-            // this.randomiseOperator()
+            this.randomiseOperator()
         },
 
         methods: {
 
             refresh() {
                 this.getRandomNumber()
-                // this.randomiseOperator()
+                this.randomiseOperator()
             },
 
             selectOperator() {
@@ -107,7 +106,6 @@
 
             },
 
-
             times() {
                 this.operation = (a, b) => a * b;
 
@@ -125,16 +123,13 @@
             },
 
             equals() {
-                this.answer = `${this.operation(
-                    parseFloat(this.valueA),
-                    parseFloat(this.valueB),
-                )}`;
+                this.answer = `${this.operation(parseFloat(this.valueA),parseFloat(this.valueB))}`;
 
             },
             getRandomNumber() {
                 this.valueA = this.generateNumber()
                 this.valueB = this.generateNumber()
-                // this.operator = this.randomiseOperator()
+                this.operator = this.randomiseOperator()
             },
 
             generateNumber() {
@@ -144,6 +139,7 @@
             randomiseOperator() {
                 let selector = Math.floor(Math.random() * this.operators.length);
                 this.operator = this.operators[selector]
+                this.selectOperator()
 
             }
 
