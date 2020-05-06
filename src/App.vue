@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+<calculate-fun/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+  import calculateFun from "@/components/calculateFun";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    calculateFun
   }
 }
 </script>
@@ -25,4 +25,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+  body{
+    background-color: #b794fc;
+  }
 </style>
