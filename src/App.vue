@@ -1,29 +1,42 @@
 <template>
-  <div id="app">
-<calculate-fun/>
-  </div>
+    <div id="app">
+        <calculate-fun/>
+    </div>
 </template>
 
 <script>
 
-  import calculateFun from "@/components/calculateFun";
+    import calculateFun from "@/components/calculateFun";
 
-export default {
-  name: 'App',
-  components: {
-    calculateFun
-  }
-}
+    export default {
+        name: 'App',
+        components: {
+            calculateFun
+        }
+    }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+    #app {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+        margin-top: 60px;
+
+    }
+
+    html {
+        /*background-color: #00aa91;*/
+        background-image: url("/img/purple-rider.png");
+        background-position: center;
+        height: 100vh;
+        background-repeat: no-repeat;
+        background-size: cover;
+        /*background-attachment: fixed;*/
+
+    }
 
 </style>
+

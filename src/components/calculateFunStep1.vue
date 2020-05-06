@@ -1,33 +1,35 @@
 <template>
     <div>
         <div>
-            <h1 class="is-size-1 has-text-weight-bold has-text-white">
+            <h1 class="is-size-3 has-text-weight-bold">
                 Calculator Game
             </h1>
 
-            <p id="answer" class="has-background-grey-lighter py-1">Answer:{{answer}}<br>
-            userAnswer:{{userAnswer}}</p>
+            <p id="answer" class="has-background-grey-lighter py-1">Answer:{{answer}} <br>  {{operator}}</p>
+
+
+
             <section class="container mx-5 px-5 py-5">
                 <div class="area">
-                    <div class="box-1 px-4  has-background-warning">
-                        <h1 class="is-size-1 has-text-danger ">{{valueA}}</h1>
+                    <div class="box-1">
+                        <h1 class="is-size-1">{{valueA}}</h1>
                     </div>
-                    <div class="box-2 px-4  ">
-                        <h1 id="operator" class="is-size-1 has-text-weight-bold has-text-white ">{{operator}}</h1>
+                    <div class="box-2">
+                        <h1 id="operator" class="has-text-weight-bold has-text-danger">{{operator}}</h1>
 
 
                     </div>
-                    <div class="box-3 px-4  has-background-warning">
-                        <h1 class="is-size-1 has-text-danger">{{valueB}}</h1>
+                    <div class="box-3">
+                        <h1 class="is-size-1">{{valueB}}</h1>
 
                     </div>
                     <div class="box-4">
-                        <h1 class="is-size-1 has-text-white">=</h1>
+                        <h1 class="is-size-1">=</h1>
 
                     </div>
                     <div class="box-5">
 
-                        <input v-model="userAnswer" class="input is-large has-background-warning" type="number">
+                        <input v-model="answer" class="input is-medium" type="number">
 
 
                     </div>
@@ -41,17 +43,17 @@
                         <div class="select mx-5">
                             <select
                                     @change="selectOperator"
-                                    v-model="difficulty">
-                                <option disabled value="">Select Difficulty
+                                    v-model="operator">
+                                <option disabled value="">Please select one
                                 </option>
-                                <option value="+">Easy</option>
-                                <option value="-">Medium</option>
-                                <option value="*">Hard</option>
-                                <option value="*">Mathematician</option>
+                                <option value="+">Addition</option>
+                                <option value="-">Subtraction</option>
+                                <option value="/">Division</option>
+                                <option value="*">Multiply</option>
                             </select>
                         </div>
                         <button @click="equals" class="button is-dark mx-4">Get answer</button>
-                        <button @click="checkAnswer" class="button is-warning">submit</button>
+                        <button @click="equals" class="button is-warning">submit</button>
                     </div>
                     <h1 class="has-text-success is-size-7">Score:50</h1>
                 </div>
@@ -67,13 +69,11 @@
     export default {
         data() {
             return {
-                valueA: null,
-                valueB: null,
+                valueA: 3,
+                valueB: 4,
                 answer: null,
-                userAnswer:null,
-                difficulty: "",
                 operator: "???",
-                operators: ['-', '+', '*',],
+                operators: ['-', '+', '*', '/'],
                 operation: null,
             }
         },
@@ -93,7 +93,6 @@
             selectOperator() {
                 if (this.operator === '*') {
                     this.times()
-
                 }
                 if (this.operator === '/') {
                     this.divide()
@@ -106,14 +105,6 @@
                 }
 
             },
-            checkAnswer(){
-                this.equals();
-                if(this.answer === this.userAnswer){
-                    alert('correct')
-                }else {
-                    alert('liar !!!')
-                }
-            },
 
             times() {
                 this.operation = (a, b) => a * b;
@@ -125,7 +116,6 @@
             },
             add() {
                 this.operation = (a, b) => a + b;
-
             },
             divide() {
                 this.operation = (a, b) => a / b;
@@ -133,7 +123,7 @@
             },
 
             equals() {
-                this.answer = `${this.operation(parseFloat(this.valueA), parseFloat(this.valueB))}`;
+                this.answer = `${this.operation(parseFloat(this.valueA),parseFloat(this.valueB))}`;
 
             },
             getRandomNumber() {
@@ -152,15 +142,14 @@
                 this.selectOperator()
             }
 
+            
+
         }
     }
 </script>
 
 <style scoped>
 
-    .is-size-1{
-        font-family: "Harabara Bold";
-    }
     .area {
         display: flex;
         justify-content: space-between;
@@ -172,30 +161,12 @@
     }
 
     #operator {
-        font-size: 80px;
+        font-size: 60px;
     }
 
     #answer {
         width: 30%;
         margin: 0 auto;
-
-    }
-
-    @font-face {
-        font-family: "Harabara Bold";
-        src: url("/fonts/ashcanbb_bold.ttf");
-
-    }
-
-    .box-1{
-        border: #090808 solid medium;
-        background-image: url("/img/yellow-button.png");
-    }
-
-    .box-3{
-        border: #090808 solid medium;
-        background-image: url("/img/yellow-button.png");
-
 
     }
 
