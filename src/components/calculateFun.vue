@@ -29,7 +29,7 @@
                     <div class="box-5">
 
                         <input v-model="answer" class="input is-medium" type="number">
-                        {{operator}}
+
 
                     </div>
                 </div>
@@ -118,12 +118,9 @@
             },
             add() {
                 this.operation = (a, b) => a + b;
-
-
             },
             divide() {
                 this.operation = (a, b) => a / b;
-
 
             },
 
@@ -143,15 +140,15 @@
             generateNumber() {
                 return Math.floor(Math.random() * (10) + 1);
 
-                /*  },
+            },
             randomiseOperator() {
                 let selector = Math.floor(Math.random() * this.operators.length);
                 this.operator = this.operators[selector]
 
             }
-*/
 
-            }
+
+
 
         }
     }
