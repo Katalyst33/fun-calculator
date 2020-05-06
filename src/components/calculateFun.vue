@@ -140,7 +140,6 @@
                 let selector = Math.floor(Math.random() * this.operators.length);
                 this.operator = this.operators[selector]
                 this.selectOperator()
-
             }
 
 
