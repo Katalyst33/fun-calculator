@@ -5,8 +5,7 @@
                 Calculator Game
             </h1>
 
-            <p id="answer" class="has-background-grey-lighter py-1">Answer:{{answer}}<br>
-            userAnswer:{{userAnswer}}</p>
+
             <section class="container mx-5 px-5 py-5">
                 <div class="area">
                     <div class="box-1 px-4  has-background-warning">
@@ -50,8 +49,8 @@
                                 <option value="*">Mathematician</option>
                             </select>
                         </div>
-                        <button @click="equals" class="button is-dark mx-4">Get answer</button>
-                        <button @click="checkAnswer" class="button is-warning">submit</button>
+                        <button :disabled="state.answer" @click="equals" class="button is-dark mx-4">Get answer</button>
+                        <button :disabled="state.submit" @click="checkAnswer" class="button is-warning">submit</button>
                     </div>
                     <h1 class="has-text-success is-size-7">Score:50</h1>
                 </div>
@@ -59,6 +58,20 @@
 
         </div>
 
+        <div id="debug" class=" has-text-white has-text-weight-bold">
+            <div class="has-background-danger"><h1 class="has-text-left is-size-3">Debugger</h1></div>
+            <ul class="is-size-4 has-text-left">
+               <li>Correct  Answer:{{answer}}</li>
+               <li>User Answer:{{userAnswer}}</li>
+               <li>Score:{{userScore}}</li>
+               <li>Duration: {{answerSpeed}}Secs</li>
+                <li >Difficulty: <span class="is-capitalized">{{difficultyLevel}}</span></li>
+               <li></li>
+
+
+            </ul>
+
+        </div>
 
     </div>
 </template>
@@ -71,10 +84,21 @@
                 valueB: null,
                 answer: null,
                 userAnswer:null,
+                difficultyLevel:"hard",
+                userScore:10,
+                answerSpeed:5,
+                state:{
+                    submit:false,
+                    answer:true,
+                },
                 difficulty: "",
                 operator: "???",
                 operators: ['-', '+', '*',],
                 operation: null,
+                message:{
+                    correct:"hurray !! you are a genius !",
+                    wrong:"ooooooh, keep practising"
+                }
             }
         },
 
@@ -109,9 +133,32 @@
             checkAnswer(){
                 this.equals();
                 if(this.answer === this.userAnswer){
-                    alert('correct')
-                }else {
-                    alert('liar !!!')
+                    // this.$swal(`your answer ${this.userAnswer} is correct`)
+                    this.$swal.fire({
+                        title: 'Correct !',
+                        text:this.message.correct,
+                        imageUrl: '/img/face/albert.png',
+                        imageWidth: 300,
+                        imageHeight: 300,
+                        imageAlt: 'Custom image',
+                    })
+                    this.userAnswer = null
+                    this.answer = null
+
+                } else {
+                    this.state.answer = false
+                    // this.$swal(`lair !! \n correct answer is ${this.answer}`)
+                    this.$swal.fire({
+                        title: `Wrong!! \n correct answer is ${this.answer}`,
+                        text:this.message.wrong,
+                        imageUrl: '/img/face/hawk.png',
+                        imageWidth: 300,
+                        imageHeight: 300,
+                        imageAlt: 'Custom image',
+                    })
+                    this.userAnswer = null
+                    this.answer = null
+
                 }
             },
 
@@ -134,6 +181,7 @@
 
             equals() {
                 this.answer = `${this.operation(parseFloat(this.valueA), parseFloat(this.valueB))}`;
+                this.refresh()
 
             },
             getRandomNumber() {
@@ -157,6 +205,11 @@
 </script>
 
 <style scoped>
+    @font-face {
+        font-family: "Harabara Bold";
+        src: url("/fonts/ashcanbb_bold.ttf");
+
+    }
 
     .is-size-1{
         font-family: "Harabara Bold";
@@ -181,11 +234,7 @@
 
     }
 
-    @font-face {
-        font-family: "Harabara Bold";
-        src: url("/fonts/ashcanbb_bold.ttf");
 
-    }
 
     .box-1{
         border: #090808 solid medium;
@@ -199,5 +248,13 @@
 
     }
 
+    #debug{
+        border: #fa088c 1px solid;
+        width: 50%;
+        margin: 0 auto;
+    }
+    li{
+        padding: 10px  10px 10px;
+    }
 
 </style>

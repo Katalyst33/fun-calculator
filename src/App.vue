@@ -1,7 +1,10 @@
 <template>
     <div id="app">
         <calculate-fun/>
+
+
     </div>
+
 </template>
 
 <script>
@@ -18,12 +21,17 @@
 
 <style>
     #app {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
+        font-family: "Harabara Bold";
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
         margin-top: 60px;
+
+    }
+    @font-face {
+        font-family: "Harabara Bold";
+        src: url("/fonts/ashcanbb_bold.ttf");
 
     }
 

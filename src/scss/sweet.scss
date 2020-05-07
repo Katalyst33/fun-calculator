@@ -1,0 +1,55 @@
+@import "~sweetalert2/dist/sweetalert2.css";
+
+#app {
+  font-family: "Harabara Bold";
+
+
+}
+@font-face {
+  font-family: "Harabara Bold";
+  src: url("/fonts/ashcanbb_bold.ttf");
+
+
+}
+
+
+.swal2-popup {
+
+  background: #af3dbf;
+  font-family: inherit;
+
+}
+
+.swal2-title {
+  font-family: "Harabara Bold";
+
+
+  color: #ffffff;
+  font-size: 1.875em;
+
+}
+
+.swal2-content {
+  font-family: "Harabara Bold";
+
+  z-index: 1;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  color: #ffffff;
+  font-size: 1.125em;
+  font-weight: normal;
+  line-height: normal;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.swal2-styled.swal2-confirm {
+  font-family: "Harabara Bold";
+  border: 0;
+  border-radius: 0.25em;
+  background: initial;
+  background-color: #f8a511;
+  color: #4e3838;
+  font-size: 1.0625em;
+}
