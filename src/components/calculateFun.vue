@@ -1,8 +1,6 @@
 <template>
     <div>
         <div>
-
-
             <div class="columns">
                 <div class="column">
                     <div class="columns is-mobile">
@@ -37,7 +35,6 @@
 
             <div class="columns is-mobile">
                 <div class="column is-half is-offset-one-quarter">
-                    <router-link to="/settings" class="button is-danger"> Settings</router-link>
 
                     <div class="py-5">
                         <button :disabled="buttonState.submit" @click="checkAnswer" class="button is-success is-large">
@@ -62,18 +59,16 @@
                         <button @click="refresh" class="button is-white has-text-success mb-4 mb-md-0 is-large">
                             Refresh<i class="fad fa-lightbulb-on"></i></button>
                     </div>
+                    <router-link to="/settings" class="button is-danger my-3"> Settings</router-link>
 
-                    <div class="">
+
+                    <div>
                         <h1 class="has-text-success has-text-centered is-size-1 pt-5">Score:{{userScore}}</h1>
                         <h1 class="has-text-warning has-text-centered is-size-1 pt-5">Refresh:{{userScore}}</h1>
                     </div>
 
                 </div>
-
-
             </div>
-
-
         </div>
 
         <div id="debug" class=" has-text-white has-text-weight-bold">
@@ -116,7 +111,7 @@
                 message: {
                     correct: "hurray !! you are a genius !",
                     wrong: "ooooooh, keep practising"
-                }
+                },
             }
         },
 
@@ -124,8 +119,8 @@
             this.getRandomNumber()
             this.randomiseOperator()
             this.submitButtonState()
-
         },
+
         mounted() {
             this.equals()
             this.refresh()
@@ -158,11 +153,7 @@
                 if (this.operator === '-') {
                     this.minus()
                 }
-
-                this.refresh()
-
             },
-
 
             submitButtonState() {
                 if (this.userAnswer === "") {
@@ -173,7 +164,6 @@
 
                 } else {
                     this.buttonState.submit = false
-
                 }
 
             },
@@ -181,7 +171,6 @@
             checkAnswer() {
                 this.equals();
                 if (this.answer === this.userAnswer) {
-                    // this.$swal(`your answer ${this.userAnswer} is correct`)
                     this.$swal.fire({
                         title: 'Correct !',
                         text: this.message.correct,
@@ -192,11 +181,9 @@
                     })
                     this.userScore += 10;
                     // console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
-                    this.refresh()
 
                 } else {
                     this.buttonState.answer = false
-                    // this.$swal(`lair !! \n correct answer is ${this.answer}`)
                     this.$swal.fire({
                         title: `Wrong!! \n ${this.valueA} ${this.operator} ${this.valueB} is ${this.answer}`,
                         text: this.message.wrong,
@@ -206,10 +193,10 @@
                         imageAlt: 'Custom image',
                     })
                     // console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
-                    this.refresh()
-
 
                 }
+                this.refresh()
+
             },
 
             times() {
@@ -232,9 +219,9 @@
             equals() {
                 let calculation = `${this.operation(parseFloat(this.valueA), parseFloat(this.valueB))}`;
 
-             return    this.answer = `${Math.round(parseFloat(calculation))}`
-
+                return this.answer = `${Math.round(parseFloat(calculation))}`
             },
+
             getRandomNumber() {
                 this.valueA = this.generateNumber()
                 this.valueB = this.generateNumber()
@@ -245,6 +232,7 @@
                 return Math.floor(Math.random() * (10) + 1);
 
             },
+
             randomiseOperator() {
 
                 if (this.difficultyLevel === 'easy') {
