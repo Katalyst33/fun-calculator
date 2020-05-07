@@ -26,7 +26,8 @@
                     </div>
                     <div class="box-5">
 
-                        <input v-model="userAnswer" class="input is-large has-background-warning" type="number">
+                        <input @keyup.enter="checkAnswer" v-model="userAnswer"
+                               class="input is-large has-background-warning" type="number">
 
 
                     </div>
@@ -40,17 +41,17 @@
                         <div class="select mx-5">
                             <select
                                     @change="selectOperator"
-                                    v-model="difficulty">
+                                    v-model="difficultyLevel">
                                 <option disabled value="">Select Difficulty
                                 </option>
-                                <option value="+">Easy</option>
-                                <option value="-">Medium</option>
-                                <option value="*">Hard</option>
-                                <option value="*">Mathematician</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                                <option value="mathematician">Mathematician</option>
                             </select>
                         </div>
-                        <button :disabled="state.answer" @click="equals" class="button is-dark mx-4">Get answer</button>
-                        <button :disabled="state.submit" @click="checkAnswer" class="button is-warning">submit</button>
+                        <button :disabled="buttonState.submit" @click="checkAnswer" class="button is-warning">submit
+                        </button>
                     </div>
                     <h1 class="has-text-success is-size-7">Score:50</h1>
                 </div>
@@ -61,12 +62,14 @@
         <div id="debug" class=" has-text-white has-text-weight-bold">
             <div class="has-background-danger"><h1 class="has-text-left is-size-3">Debugger</h1></div>
             <ul class="is-size-4 has-text-left">
-               <li>Correct  Answer:{{answer}}</li>
-               <li>User Answer:{{userAnswer}}</li>
-               <li>Score:{{userScore}}</li>
-               <li>Duration: {{answerSpeed}}Secs</li>
-                <li >Difficulty: <span class="is-capitalized">{{difficultyLevel}}</span></li>
-               <li></li>
+                <li>Correct Answer:{{answer}}</li>
+                <li>User Answer:{{userAnswer}}</li>
+                <li>Score:{{userScore}}</li>
+                <li>Duration: {{answerSpeed}}Secs</li>
+                <li>Difficulty: <span class="is-capitalized">{{difficultyLevel}}</span></li>
+                <li>
+                    <button @click="equals" class="button is-dark mx-4">Get answer</button>
+                </li>
 
 
             </ul>
@@ -77,27 +80,28 @@
 </template>
 
 <script>
+    import {easyOperator, hardOperator, mediumOperator, veryHardOperator} from "../../gameController"
+
     export default {
         data() {
             return {
                 valueA: null,
                 valueB: null,
                 answer: null,
-                userAnswer:null,
-                difficultyLevel:"hard",
-                userScore:10,
-                answerSpeed:5,
-                state:{
-                    submit:false,
-                    answer:true,
+                userAnswer: null,
+                difficultyLevel: "mathematician",
+                userScore: 10,
+                answerSpeed: 5,
+                buttonState: {
+                    submit: false,
+                    answer: true,
                 },
-                difficulty: "",
                 operator: "???",
                 operators: ['-', '+', '*',],
                 operation: null,
-                message:{
-                    correct:"hurray !! you are a genius !",
-                    wrong:"ooooooh, keep practising"
+                message: {
+                    correct: "hurray !! you are a genius !",
+                    wrong: "ooooooh, keep practising"
                 }
             }
         },
@@ -130,13 +134,13 @@
                 }
 
             },
-            checkAnswer(){
+            checkAnswer() {
                 this.equals();
-                if(this.answer === this.userAnswer){
+                if (this.answer === this.userAnswer) {
                     // this.$swal(`your answer ${this.userAnswer} is correct`)
                     this.$swal.fire({
                         title: 'Correct !',
-                        text:this.message.correct,
+                        text: this.message.correct,
                         imageUrl: '/img/face/albert.png',
                         imageWidth: 300,
                         imageHeight: 300,
@@ -145,11 +149,11 @@
                     this.userAnswer = null
                     this.answer = null
                 } else {
-                    this.state.answer = false
+                    this.buttonState.answer = false
                     // this.$swal(`lair !! \n correct answer is ${this.answer}`)
                     this.$swal.fire({
                         title: `Wrong!! \n correct answer is ${this.answer}`,
-                        text:this.message.wrong,
+                        text: this.message.wrong,
                         imageUrl: '/img/face/hawk.png',
                         imageWidth: 300,
                         imageHeight: 300,
@@ -180,7 +184,7 @@
 
             equals() {
                 this.answer = `${this.operation(parseFloat(this.valueA), parseFloat(this.valueB))}`;
-                this.refresh()
+                // this.refresh()
 
             },
             getRandomNumber() {
@@ -194,6 +198,19 @@
 
             },
             randomiseOperator() {
+
+                if (this.difficultyLevel === 'easy') {
+                    this.operators = easyOperator
+                }
+                if (this.difficultyLevel === 'medium') {
+                    this.operators = mediumOperator
+                }
+                if (this.difficultyLevel === 'hard') {
+                    this.operators = hardOperator
+                }
+                if (this.difficultyLevel === 'mathematician') {
+                    this.operators = veryHardOperator
+                }
                 let selector = Math.floor(Math.random() * this.operators.length);
                 this.operator = this.operators[selector]
                 this.selectOperator()
@@ -210,9 +227,10 @@
 
     }
 
-    .is-size-1{
+    .is-size-1 {
         font-family: "Harabara Bold";
     }
+
     .area {
         display: flex;
         justify-content: space-between;
@@ -234,26 +252,26 @@
     }
 
 
-
-    .box-1{
+    .box-1 {
         border: #090808 solid medium;
         background-image: url("/img/yellow-button.png");
     }
 
-    .box-3{
+    .box-3 {
         border: #090808 solid medium;
         background-image: url("/img/yellow-button.png");
 
 
     }
 
-    #debug{
+    #debug {
         border: #fa088c 1px solid;
         width: 50%;
         margin: 0 auto;
     }
-    li{
-        padding: 10px  10px 10px;
+
+    li {
+        padding: 10px 10px 10px;
     }
 
 </style>
