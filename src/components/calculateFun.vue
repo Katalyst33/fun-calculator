@@ -26,7 +26,7 @@
                     </div>
                     <div class="box-5">
 
-                        <input @keyup.enter="checkAnswer" v-model="userAnswer"
+                        <input @keyup.enter="checkAnswer" @input="submitButtonState" v-model="userAnswer"
                                class="input is-large has-background-warning" type="number">
 
 
@@ -53,7 +53,7 @@
                         <button :disabled="buttonState.submit" @click="checkAnswer" class="button is-warning">submit
                         </button>
                     </div>
-                    <h1 class="has-text-success is-size-7">Score:50</h1>
+                    <h1 class="has-text-success is-size-1 pt-5">Score:50</h1>
                 </div>
             </section>
 
@@ -88,7 +88,7 @@
                 valueA: null,
                 valueB: null,
                 answer: null,
-                userAnswer: null,
+                userAnswer: "",
                 difficultyLevel: "mathematician",
                 userScore: 10,
                 answerSpeed: 5,
@@ -109,11 +109,13 @@
         created: function () {
             this.getRandomNumber()
             this.randomiseOperator()
+            this.submitButtonState()
         },
 
         methods: {
 
             refresh() {
+                this.equals()
                 this.getRandomNumber()
                 this.randomiseOperator()
             },
@@ -134,6 +136,16 @@
                 }
 
             },
+            submitButtonState() {
+                if (this.userAnswer === "") {
+                    this.buttonState.submit = true
+                } else {
+                    this.buttonState.submit = false
+
+                }
+
+            },
+
             checkAnswer() {
                 this.equals();
                 if (this.answer === this.userAnswer) {
@@ -184,7 +196,6 @@
 
             equals() {
                 this.answer = `${this.operation(parseFloat(this.valueA), parseFloat(this.valueB))}`;
-                // this.refresh()
 
             },
             getRandomNumber() {
