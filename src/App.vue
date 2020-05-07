@@ -36,13 +36,13 @@
     }
 
     html {
-        /*background-color: #00aa91;*/
+        background-color: #370047;
         background-image: url("/img/purple-rider.png");
         background-position: center;
         height: 100vh;
         background-repeat: no-repeat;
-        background-size: cover;
-        /*background-attachment: fixed;*/
+        /*background-size: cover;*/
+        background-attachment: fixed;
 
     }
 

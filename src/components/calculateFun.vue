@@ -53,7 +53,7 @@
                         <button :disabled="buttonState.submit" @click="checkAnswer" class="button is-warning">submit
                         </button>
                     </div>
-                    <h1 class="has-text-success is-size-1 pt-5">Score:50</h1>
+                    <h1 class="has-text-success is-size-1 pt-5">Score:{{userScore}}</h1>
                 </div>
             </section>
 
@@ -89,8 +89,8 @@
                 valueB: null,
                 answer: null,
                 userAnswer: "",
-                difficultyLevel: "mathematician",
-                userScore: 10,
+                difficultyLevel: "",
+                userScore: 0,
                 answerSpeed: 5,
                 buttonState: {
                     submit: false,
@@ -115,9 +115,12 @@
         methods: {
 
             refresh() {
+                this.submitButtonState()
                 this.getRandomNumber()
                 this.randomiseOperator()
                 this.equals()
+                this.userAnswer = null
+                this.answer = null
 
             },
 
@@ -140,7 +143,11 @@
             submitButtonState() {
                 if (this.userAnswer === "") {
                     this.buttonState.submit = true
-                } else {
+                }if(this.difficultyLevel === ""){
+                    this.buttonState.submit = true
+
+                }
+                else {
                     this.buttonState.submit = false
 
                 }
@@ -159,10 +166,10 @@
                         imageHeight: 300,
                         imageAlt: 'Custom image',
                     })
-                    console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
+                    this.userScore += 10;
+                    // console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
+                    this.refresh()
 
-                    this.userAnswer = null
-                    this.answer = null
                 } else {
                     this.buttonState.answer = false
                     // this.$swal(`lair !! \n correct answer is ${this.answer}`)
@@ -174,11 +181,11 @@
                         imageHeight: 300,
                         imageAlt: 'Custom image',
                     })
-                    console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
+                    // console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
+                    this.refresh()
 
 
-                    this.userAnswer = null
-                    this.answer = null
+
 
                 }
             },
@@ -203,7 +210,7 @@
             equals() {
                 let calculation = `${this.operation(parseFloat(this.valueA), parseFloat(this.valueB))}`;
 
-                this.answer =  `${Math.round(parseFloat(calculation))}`
+                this.answer = `${Math.round(parseFloat(calculation))}`
 
             },
             getRandomNumber() {
