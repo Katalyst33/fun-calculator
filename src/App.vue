@@ -1,21 +1,16 @@
 <template>
-    <div id="app">
-        <calculate-fun/>
-
-
-    </div>
-
+<div id="app">
+  <Navbar/>
+  <router-view/>
+</div>
 </template>
 
 <script>
 
-    import calculateFun from "@/components/calculateFun";
 
     export default {
         name: 'App',
-        components: {
-            calculateFun
-        }
+
     }
 </script>
 
@@ -31,12 +26,14 @@
     }
     @font-face {
         font-family: "Harabara Bold";
-        src: url("/fonts/ashcanbb_bold.ttf");
+        src: url("/web-fonts/ashcanbb_bold.ttf");
 
     }
 
     html {
-        background-color: #370047;
+      font-family: "Harabara Bold";
+
+      background-color: #370047;
         background-image: url("/img/purple-rider.png");
         background-position: center;
         height: 100vh;
@@ -47,4 +44,3 @@
     }
 
 </style>
-

@@ -1,67 +1,84 @@
 <template>
     <div>
         <div>
-            <h1 class="is-size-1 has-text-weight-bold has-text-white">
-                Calculator Game
-            </h1>
 
 
-            <section class="container mx-5 px-5 py-5">
-                <div class="area">
-                    <div class="box-1 px-4  has-background-warning">
-                        <h1 class="is-size-1 has-text-danger ">{{valueA}}</h1>
+            <div class="columns">
+                <div class="column">
+                    <div class="columns is-mobile">
+                        <div class="column ">
+                            <h1 class="is-size-1 has-text-danger box-1 ">{{valueA}}</h1>
+
+                        </div>
+                        <div class="column">
+                            <h1 id="operator" class="is-size-1 has-text-weight-bold has-text-white box-2 ">
+                                {{operator}}</h1>
+
+                        </div>
+                        <div class="column">
+                            <h1 class="is-size-1 has-text-danger box-3">{{valueB}}</h1>
+
+                        </div>
                     </div>
-                    <div class="box-2 px-4  ">
-                        <h1 id="operator" class="is-size-1 has-text-weight-bold has-text-white ">{{operator}}</h1>
+                </div>
+                <div class="column box-5">
+                    <div>
+                        <div class="box-4">
+                            <input @keyup.enter="checkAnswer" @input="submitButtonState" v-model="userAnswer"
+                                   class="input is-large has-background-warning" type="number">
+                            <p class="has-text-white">Answer</p>
 
-
-                    </div>
-                    <div class="box-3 px-4  has-background-warning">
-                        <h1 class="is-size-1 has-text-danger">{{valueB}}</h1>
-
-                    </div>
-                    <div class="box-4">
-                        <h1 class="is-size-1 has-text-white">=</h1>
-
-                    </div>
-                    <div class="box-5">
-
-                        <input @keyup.enter="checkAnswer" @input="submitButtonState" v-model="userAnswer"
-                               class="input is-large has-background-warning" type="number">
+                        </div>
 
 
                     </div>
                 </div>
+            </div>
 
-                <div class="py-5">
+            <div class="columns is-mobile">
+                <div class="column is-half is-offset-one-quarter">
+                    <router-link to="/settings" class="button is-danger"> Settings</router-link>
 
-                    <div>
-                        <button @click="refresh" class="button is-success">Refresh</button>
-
-                        <div class="select mx-5">
-                            <select
-                                    @change="selectOperator"
-                                    v-model="difficultyLevel">
-                                <option disabled value="">Select Difficulty
-                                </option>
-                                <option value="easy">Easy</option>
-                                <option value="medium">Medium</option>
-                                <option value="hard">Hard</option>
-                                <option value="mathematician">Mathematician</option>
-                            </select>
-                        </div>
-                        <button :disabled="buttonState.submit" @click="checkAnswer" class="button is-warning">submit
+                    <div class="py-5">
+                        <button :disabled="buttonState.submit" @click="checkAnswer" class="button is-success is-large">
+                            Submit Answer
                         </button>
                     </div>
-                    <h1 class="has-text-success is-size-1 pt-5">Score:{{userScore}}</h1>
+
+                    <div class="select is-medium mmb-4 my-md-0">
+                        <select
+                                @change="selectOperator"
+                                v-model="difficultyLevel">
+                            <option disabled value="">Select Difficulty
+                            </option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                            <option value="mathematician">Mathematician</option>
+                        </select>
+                    </div>
+
+                    <div class="mt-5">
+                        <button @click="refresh" class="button is-white has-text-success mb-4 mb-md-0 is-large">
+                            Refresh<i class="fad fa-lightbulb-on"></i></button>
+                    </div>
+
+                    <div class="">
+                        <h1 class="has-text-success has-text-centered is-size-1 pt-5">Score:{{userScore}}</h1>
+                        <h1 class="has-text-warning has-text-centered is-size-1 pt-5">Refresh:{{userScore}}</h1>
+                    </div>
+
                 </div>
-            </section>
+
+
+            </div>
+
 
         </div>
 
         <div id="debug" class=" has-text-white has-text-weight-bold">
-            <div class="has-background-danger"><h1 class="has-text-left is-size-3">Debugger</h1></div>
-            <ul class="is-size-4 has-text-left">
+            <div class="has-background-danger"><h1 class="has-text-left is-size-4">Debugger</h1></div>
+            <ul class="is-size-5 has-text-left">
                 <li>Correct Answer:{{answer}}</li>
                 <li>User Answer:{{userAnswer}}</li>
                 <li>Score:{{userScore}}</li>
@@ -89,16 +106,13 @@
                 valueB: null,
                 answer: null,
                 userAnswer: "",
-                difficultyLevel: "",
+                difficultyLevel: "easy",
                 userScore: 0,
                 answerSpeed: 5,
                 buttonState: {
                     submit: false,
                     answer: true,
                 },
-                operator: "???",
-                operators: ['-', '+', '*',],
-                operation: null,
                 message: {
                     correct: "hurray !! you are a genius !",
                     wrong: "ooooooh, keep practising"
@@ -106,48 +120,58 @@
             }
         },
 
-        created: function () {
+        created() {
             this.getRandomNumber()
             this.randomiseOperator()
             this.submitButtonState()
+
+        },
+        mounted() {
+            this.equals()
+            this.refresh()
         },
 
         methods: {
 
             refresh() {
+                this.equals()
                 this.submitButtonState()
+                this.answer = null
+                this.userAnswer = null
                 this.getRandomNumber()
                 this.randomiseOperator()
-                this.equals()
-                this.userAnswer = null
-                this.answer = null
-
             },
 
             selectOperator() {
                 if (this.operator === '*') {
                     this.times()
-
                 }
+
                 if (this.operator === '/') {
                     this.divide()
                 }
+
                 if (this.operator === '+') {
                     this.add()
                 }
+
                 if (this.operator === '-') {
                     this.minus()
                 }
 
+                this.refresh()
+
             },
+
+
             submitButtonState() {
                 if (this.userAnswer === "") {
                     this.buttonState.submit = true
-                }if(this.difficultyLevel === ""){
+                }
+                if (this.difficultyLevel === "") {
                     this.buttonState.submit = true
 
-                }
-                else {
+                } else {
                     this.buttonState.submit = false
 
                 }
@@ -174,7 +198,7 @@
                     this.buttonState.answer = false
                     // this.$swal(`lair !! \n correct answer is ${this.answer}`)
                     this.$swal.fire({
-                        title: `Wrong!! \n correct answer is ${this.answer}`,
+                        title: `Wrong!! \n ${this.valueA} ${this.operator} ${this.valueB} is ${this.answer}`,
                         text: this.message.wrong,
                         imageUrl: '/img/face/hawk.png',
                         imageWidth: 300,
@@ -183,8 +207,6 @@
                     })
                     // console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
                     this.refresh()
-
-
 
 
                 }
@@ -210,7 +232,7 @@
             equals() {
                 let calculation = `${this.operation(parseFloat(this.valueA), parseFloat(this.valueB))}`;
 
-                this.answer = `${Math.round(parseFloat(calculation))}`
+             return    this.answer = `${Math.round(parseFloat(calculation))}`
 
             },
             getRandomNumber() {
@@ -259,6 +281,7 @@
 
     .area {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
         align-items: center;
     }
@@ -279,20 +302,26 @@
 
 
     .box-1 {
-        border: #090808 solid medium;
+        /*border: #090808 solid medium;*/
         background-image: url("/img/yellow-button.png");
+        background-repeat: no-repeat;
+        background-position: center;
+
+
     }
 
     .box-3 {
-        border: #090808 solid medium;
+        /*border: #090808 solid medium;*/
         background-image: url("/img/yellow-button.png");
+        background-repeat: no-repeat;
+        background-position: center;
 
 
     }
 
     #debug {
         border: #fa088c 1px solid;
-        width: 50%;
+        width: 80%;
         margin: 0 auto;
     }
 
