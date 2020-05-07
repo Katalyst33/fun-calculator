@@ -144,7 +144,6 @@
                     })
                     this.userAnswer = null
                     this.answer = null
-
                 } else {
                     this.state.answer = false
                     // this.$swal(`lair !! \n correct answer is ${this.answer}`)
