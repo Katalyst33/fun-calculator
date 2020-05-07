@@ -115,9 +115,10 @@
         methods: {
 
             refresh() {
-                this.equals()
                 this.getRandomNumber()
                 this.randomiseOperator()
+                this.equals()
+
             },
 
             selectOperator() {
@@ -158,6 +159,8 @@
                         imageHeight: 300,
                         imageAlt: 'Custom image',
                     })
+                    console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
+
                     this.userAnswer = null
                     this.answer = null
                 } else {
@@ -171,6 +174,9 @@
                         imageHeight: 300,
                         imageAlt: 'Custom image',
                     })
+                    console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
+
+
                     this.userAnswer = null
                     this.answer = null
 
@@ -195,7 +201,9 @@
             },
 
             equals() {
-                this.answer = `${this.operation(parseFloat(this.valueA), parseFloat(this.valueB))}`;
+                let calculation = `${this.operation(parseFloat(this.valueA), parseFloat(this.valueB))}`;
+
+                this.answer =  `${Math.round(parseFloat(calculation))}`
 
             },
             getRandomNumber() {
