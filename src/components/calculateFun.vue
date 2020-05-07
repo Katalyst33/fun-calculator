@@ -6,16 +6,14 @@
                     <div class="columns is-mobile">
                         <div class="column ">
                             <h1 class="is-size-1 has-text-danger box-1 ">{{valueA}}</h1>
-
                         </div>
                         <div class="column">
                             <h1 id="operator" class="is-size-1 has-text-weight-bold has-text-white box-2 ">
-                                {{operator}}</h1>
-
+                                {{operator}}
+                            </h1>
                         </div>
                         <div class="column">
                             <h1 class="is-size-1 has-text-danger box-3">{{valueB}}</h1>
-
                         </div>
                     </div>
                 </div>
@@ -24,11 +22,8 @@
                         <div class="box-4">
                             <input @keyup.enter="checkAnswer" @input="submitButtonState" v-model="userAnswer"
                                    class="input is-large has-background-warning" type="number">
-                            <p class="has-text-white">Answer</p>
-
+                            <p class="has-text-white">Type  Answer</p>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -122,7 +117,6 @@
         },
 
         mounted() {
-            this.equals()
             this.refresh()
         },
 
@@ -222,16 +216,16 @@
                 return this.answer = `${Math.round(parseFloat(calculation))}`
             },
 
+            generateNumber() {
+                return Math.floor(Math.random() * (10) + 1);
+
+            },
             getRandomNumber() {
                 this.valueA = this.generateNumber()
                 this.valueB = this.generateNumber()
                 this.operator = this.randomiseOperator()
             },
 
-            generateNumber() {
-                return Math.floor(Math.random() * (10) + 1);
-
-            },
 
             randomiseOperator() {
 
