@@ -16,7 +16,7 @@
 
 <style>
     #app {
-        font-family: "Harabara Bold";
+        /*font-family: "Harabara Bold";*/
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
@@ -24,15 +24,15 @@
         margin-top: 60px;
     }
 
-    @font-face {
+ /*   @font-face {
         font-family: "Harabara Bold";
         src: url("./assets/fonts/ashcanbb_bold.ttf") format('opentype'),
       url("./assets/fonts/ashcanbb_bold.ttf");
 
-    }
+    }*/
 
     html {
-      font-family: "Harabara Bold";
+      /*font-family: "Harabara Bold";*/
       background-color: #370047;
         background-image: url("/img/purple-rider.png");
         background-position: center;

@@ -216,6 +216,7 @@
             generateNumber() {
 
 
+
                 let min = 10;
                 let max = 30;
 
@@ -223,6 +224,11 @@
                 return Math.floor(Math.random() * (max) + min);
 
             },
+
+
+
+
+
             getRandomNumber() {
                 this.valueA = this.generateNumber()
                 this.valueB = this.generateNumber()
@@ -232,7 +238,7 @@
             randomiseArithmeticOperator() {
 
                 if (this.difficultyLevel === 'easy') {
-                    this.operators = easyOperator
+                    this.operators = easyOperator.arithmeticOperator
                 }
                 if (this.difficultyLevel === 'medium') {
                     this.operators = mediumOperator
@@ -253,15 +259,15 @@
 </script>
 
 <style scoped>
-    @font-face {
+   /* @font-face {
         font-family: "Harabara Bold";
         src: url("/fonts/ashcanbb_bold.ttf");
 
-    }
+    }*/
 
-    .is-size-1 {
+   /* .is-size-1 {
         font-family: "Harabara Bold";
-    }
+    }*/
 
     .area {
         display: flex;
