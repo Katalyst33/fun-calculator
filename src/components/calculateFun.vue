@@ -39,7 +39,7 @@
 
                     <div class="select is-medium mmb-4 my-md-0">
                         <select
-                                @change="selectArithmeticOperator"
+
                                 v-model="difficultyLevel">
                             <option disabled value="">Select Difficulty
                             </option>
@@ -75,7 +75,7 @@
                 <li>Duration: {{answerSpeed}}Secs</li>
                 <li>Difficulty: <span class="is-capitalized">{{difficultyLevel}}</span></li>
                 <li>
-                    <button @click="equals" class="button is-primary mx-4">Get answer</button>
+                    <button class="button is-primary mx-4">Get answer</button>
                 </li>
             </ul>
         </div>
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-    import {easyOperator, hardOperator, mediumOperator, veryHardOperator} from "../../gameController"
+    import {easyGameLevel, mediumGameLevel, hardGameLevel, veryHardGameLevel} from "../../gameController"
 
     export default {
         data() {
@@ -94,6 +94,7 @@
                 answer: null,
                 userAnswer: "",
                 difficultyLevel: "easy",
+                operator: null,
                 userScore: 0,
                 answerSpeed: 5,
                 buttonState: {
@@ -107,6 +108,40 @@
             }
         },
 
+        watch: {
+            difficultyLevel() {
+                this.onLevelChange()
+            },
+        },
+
+        computed: {
+
+            userAnswerToNumber() {
+                return Number(this.userAnswer)
+            },
+
+            x() {
+                return Number(this.valueA)
+            },
+            y() {
+                return Number(this.valueB)
+
+
+            },
+            gameLevel() {
+                const level = this.difficultyLevel;
+                if (level === "medium") {
+                    return mediumGameLevel
+                } else if (level === "hard") {
+                    return hardGameLevel
+                } else if (level === "mathematician") {
+                    return veryHardGameLevel
+                } else {
+                    return easyGameLevel
+                }
+
+            },
+        },
         created() {
             this.getRandomNumber()
             this.randomiseArithmeticOperator()
@@ -117,33 +152,26 @@
             this.refreshGameValues()
         },
 
+
         methods: {
 
             refreshGameValues() {
-                this.equals()
-                this.submitButtonState()
-                this.answer = null
-                this.userAnswer = null
-                this.getRandomNumber()
-                this.randomiseArithmeticOperator()
+                this.onLevelChange()
+
             },
 
-            selectArithmeticOperator() {
+            calculateAnswer() {
                 if (this.operator === '*') {
-                    this.multiplication()
+                    this.answer = this.multiplication()
+                } else if (this.operator === '/') {
+                    this.answer = this.division()
+                } else if (this.operator === '+') {
+                    this.answer = this.addition()
+                } else if (this.operator === '-') {
+                    this.answer = this.subtraction()
                 }
 
-                if (this.operator === '/') {
-                    this.division()
-                }
 
-                if (this.operator === '+') {
-                    this.addition()
-                }
-
-                if (this.operator === '-') {
-                    this.subtraction()
-                }
             },
 
             submitButtonState() {
@@ -160,8 +188,10 @@
             },
 
             checkAnswer() {
-                this.equals();
-                if (this.answer === this.userAnswer) {
+                this.calculateAnswer()
+
+
+                if (this.answer === this.userAnswerToNumber) {
                     this.$swal.fire({
                         title: 'Correct !',
                         text: this.message.correct,
@@ -169,8 +199,8 @@
                         imageWidth: 300,
                         imageHeight: 300,
                         imageAlt: 'Custom image',
-                    })
-                    this.userScore += 10;
+                    }).then(this.onWin)
+
                     // console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
 
                 } else {
@@ -182,92 +212,78 @@
                         imageWidth: 300,
                         imageHeight: 300,
                         imageAlt: 'Custom image',
-                    })
+                    }).then(this.refreshGameValues)
                     // console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
 
                 }
+
+            },
+
+            onWin() {
+
+                this.userScore += 10;
                 this.refreshGameValues()
 
             },
 
             multiplication() {
-                this.operation = (a, b) => a * b;
+                return this.x * this.y;
 
             },
             subtraction() {
-                this.operation = (a, b) => a - b;
+                return this.x - this.y;
 
             },
             addition() {
-                this.operation = (a, b) => a + b;
+                return this.x + this.y;
 
             },
             division() {
-                this.operation = (a, b) => a / b;
+                return this.x / this.y;
 
             },
 
-            equals() {
-                let calculation = `${this.operation(parseFloat(this.valueA), parseFloat(this.valueB))}`;
-
-                return this.answer = `${Math.round(parseFloat(calculation))}`
-            },
 
             generateNumber() {
-
-
-
-                let min = 10;
-                let max = 30;
-
+                let min = this.gameLevel.min;
+                let max = this.gameLevel.max;
 
                 return Math.floor(Math.random() * (max) + min);
-
             },
-
-
-
-
 
             getRandomNumber() {
                 this.valueA = this.generateNumber()
                 this.valueB = this.generateNumber()
-                this.operator = this.randomiseArithmeticOperator()
             },
 
             randomiseArithmeticOperator() {
-
-                if (this.difficultyLevel === 'easy') {
-                    this.operators = easyOperator.arithmeticOperator
-                }
-                if (this.difficultyLevel === 'medium') {
-                    this.operators = mediumOperator
-                }
-                if (this.difficultyLevel === 'hard') {
-                    this.operators = hardOperator
-                }
-                if (this.difficultyLevel === 'mathematician') {
-                    this.operators = veryHardOperator
-                }
+                this.operators = this.gameLevel.arithmeticOperator
                 let selector = Math.floor(Math.random() * this.operators.length);
                 this.operator = this.operators[selector]
-                this.selectArithmeticOperator()
-            }
+            },
 
+            onLevelChange() {
+                this.answer = null
+                this.userAnswer = null
+                this.randomiseArithmeticOperator();
+                this.getRandomNumber();
+
+            }
         }
+
     }
 </script>
 
 <style scoped>
-   /* @font-face {
+    @font-face {
         font-family: "Harabara Bold";
-        src: url("/fonts/ashcanbb_bold.ttf");
+        src: url("/customFont/ashcan-bb/ashcanbb_bold.ttf");
 
-    }*/
+    }
 
-   /* .is-size-1 {
+    .is-size-1 {
         font-family: "Harabara Bold";
-    }*/
+    }
 
     .area {
         display: flex;
