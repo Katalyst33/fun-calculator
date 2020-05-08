@@ -198,7 +198,7 @@
             },
 
             onWin() {
-                this.userScore += 10;
+                this.setScorePoints()
                 this.refreshGameValues()
             },
 
@@ -215,6 +215,10 @@
                 return this.x / this.y;
             },
 
+            setScorePoints(){
+                let scorePoint =this.gameLevel.score
+                this.userScore += scorePoint;
+            },
             generateNumber() {
                 let min = this.gameLevel.min;
                 let max = this.gameLevel.max;
