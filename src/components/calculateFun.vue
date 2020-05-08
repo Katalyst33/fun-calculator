@@ -20,7 +20,7 @@
                 <div class="column box-5">
                     <div>
                         <div class="box-4">
-                            <input @keyup.enter="checkAnswer" @input="submitButtonState" v-model="userAnswer"
+                            <input @keyup.enter="checkAnswer" v-model="userAnswer"
                                    class="input is-large has-background-warning" type="number">
                             <p class="has-text-white">Type Answer</p>
                         </div>
@@ -92,7 +92,7 @@
                 valueA: null,
                 valueB: null,
                 answer: null,
-                userAnswer: "",
+                userAnswer: null,
                 difficultyLevel: "easy",
                 operator: null,
                 userScore: 0,
@@ -109,10 +109,13 @@
             difficultyLevel() {
                 this.onLevelChange()
             },
+
+            userAnswer() {
+                this.submitButtonState()
+            },
         },
 
         computed: {
-
 
 
             userAnswerToNumber() {
@@ -144,21 +147,19 @@
         created() {
             this.getRandomNumber()
             this.randomiseArithmeticOperator()
-            this.submitButtonState()
         },
 
         mounted() {
             this.refreshGameValues()
         },
-
-
         methods: {
+            submitButtonState() {
+                this.disableButton = this.userAnswer === null;
+            },
 
             refreshGameValues() {
                 this.onLevelChange()
-
             },
-
             calculateAnswer() {
                 if (this.operator === '*') {
                     this.answer = this.multiplication()
@@ -169,16 +170,7 @@
                 } else if (this.operator === '-') {
                     this.answer = this.subtraction()
                 }
-
-
             },
-
-            submitButtonState() {
-                if (this.userAnswer !== "") {
-                    this.disableButton = false
-                }
-            },
-
             checkAnswer() {
                 this.calculateAnswer()
 
@@ -193,10 +185,7 @@
                         imageAlt: 'Custom image',
                     }).then(this.onWin)
 
-                    // console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
-
                 } else {
-                    this.disableButton.answer = false
                     this.$swal.fire({
                         title: `Wrong!! \n ${this.valueA} ${this.operator} ${this.valueB} is ${this.answer}`,
                         text: this.message.wrong,
@@ -205,41 +194,30 @@
                         imageHeight: 300,
                         imageAlt: 'Custom image',
                     }).then(this.refreshGameValues)
-                    // console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
-
                 }
-
             },
 
             onWin() {
-
                 this.userScore += 10;
                 this.refreshGameValues()
-
             },
 
             multiplication() {
                 return this.x * this.y;
-
             },
             subtraction() {
                 return this.x - this.y;
-
             },
             addition() {
                 return this.x + this.y;
-
             },
             division() {
                 return this.x / this.y;
-
             },
-
 
             generateNumber() {
                 let min = this.gameLevel.min;
                 let max = this.gameLevel.max;
-
                 return Math.floor(Math.random() * (max) + min);
             },
 
@@ -259,7 +237,6 @@
                 this.userAnswer = null
                 this.randomiseArithmeticOperator();
                 this.getRandomNumber();
-
             }
         }
 
