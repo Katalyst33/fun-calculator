@@ -4,8 +4,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import './scss/bulma.scss';
-import './scss/sweet.scss';
+import './scss/app.scss';
+import './scss/sweetAlertCustom.scss';
 
 import VueSweetalert2 from 'vue-sweetalert2';
 

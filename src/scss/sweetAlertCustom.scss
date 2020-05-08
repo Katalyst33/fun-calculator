@@ -6,8 +6,9 @@
 
 }
 @font-face {
-  font-family: "Harabara Bold";
-  src: url("/fonts/ashcanbb_bold.ttf");
+  font-family: 'Balsamiq Sans', cursive;
+
+  //src: url("/fonts/ashcanbb_bold.ttf");
 
 
 }
@@ -21,7 +22,8 @@
 }
 
 .swal2-title {
-  font-family: "Harabara Bold";
+  font-family: 'Balsamiq Sans', cursive;
+
 
 
   color: #ffffff;
@@ -30,7 +32,8 @@
 }
 
 .swal2-content {
-  font-family: "Harabara Bold";
+  font-family: 'Balsamiq Sans', cursive;
+
 
   z-index: 1;
   justify-content: center;
@@ -45,7 +48,8 @@
 }
 
 .swal2-styled.swal2-confirm {
-  font-family: "Harabara Bold";
+  font-family: 'Balsamiq Sans', cursive;
+
   border: 0;
   border-radius: 0.25em;
   background: initial;

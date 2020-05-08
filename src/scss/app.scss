@@ -1,4 +1,6 @@
 // var includes all custom variables
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@1,700&display=swap');
+
 @import "variables";
 
 @import "~bulma";
@@ -6,18 +8,24 @@
 @import "~shred-bootstrap/css/utilities/shadows.css";
 @import "~shred-bootstrap/css/utilities/spacing.css";
 
-@import "sweet";
+@import "sweetAlertCustom";
+
+
+body{
+  font-family: 'Balsamiq Sans', cursive;
+}
 
 .button{
-  font-family: "Harabara Bold";
+  font-family: 'Balsamiq Sans', cursive;
 }
 
 
-
  .input, .textarea, .select select {
-   font-family: "Harabara Bold";
+   font-family: 'Balsamiq Sans', cursive;
    background-color: #3298dc;
    border-color: #3298dc;
    border-radius: 4px;
    color: #ffffff;
  }
+
+

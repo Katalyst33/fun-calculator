@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="game">
         <div>
             <div class="columns">
                 <div class="column">
@@ -32,7 +32,7 @@
                 <div class="column is-half is-offset-one-quarter">
 
                     <div class="py-5">
-                        <button :disabled="buttonState.submit" @click="checkAnswer" class="button is-success is-large">
+                        <button :disabled="disableButton" @click="checkAnswer" class="button is-success is-large">
                             Submit Answer
                         </button>
                     </div>
@@ -75,7 +75,7 @@
                 <li>Duration: {{answerSpeed}}Secs</li>
                 <li>Difficulty: <span class="is-capitalized">{{difficultyLevel}}</span></li>
                 <li>
-                    <button class="button is-primary mx-4">Get answer</button>
+                    <button @click="calculateAnswer" class="button is-primary mx-4">Get answer</button>
                 </li>
             </ul>
         </div>
@@ -97,17 +97,14 @@
                 operator: null,
                 userScore: 0,
                 answerSpeed: 5,
-                buttonState: {
-                    submit: true,
-                    answer: true,
-                },
+                disableButton: true,
                 message: {
                     correct: "hurray !! you are a genius !",
                     wrong: "ooooooh, keep practising"
                 },
             }
         },
-
+// watch: watches data for changes
         watch: {
             difficultyLevel() {
                 this.onLevelChange()
@@ -115,6 +112,8 @@
         },
 
         computed: {
+
+
 
             userAnswerToNumber() {
                 return Number(this.userAnswer)
@@ -175,16 +174,9 @@
             },
 
             submitButtonState() {
-                if (this.userAnswer === "") {
-                    this.buttonState.submit = true
+                if (this.userAnswer !== "") {
+                    this.disableButton = false
                 }
-                if (this.difficultyLevel === "") {
-                    this.buttonState.submit = true
-
-                } else {
-                    this.buttonState.submit = false
-                }
-
             },
 
             checkAnswer() {
@@ -204,7 +196,7 @@
                     // console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
 
                 } else {
-                    this.buttonState.answer = false
+                    this.disableButton.answer = false
                     this.$swal.fire({
                         title: `Wrong!! \n ${this.valueA} ${this.operator} ${this.valueB} is ${this.answer}`,
                         text: this.message.wrong,
@@ -275,14 +267,15 @@
 </script>
 
 <style scoped>
-    @font-face {
-        font-family: "Harabara Bold";
-        src: url("/customFont/ashcan-bb/ashcanbb_bold.ttf");
+
+    #game {
+        font-family: 'Balsamiq Sans', cursive;
 
     }
 
+
     .is-size-1 {
-        font-family: "Harabara Bold";
+        /*font-family: 'Balsamiq Sans', cursive;*/
     }
 
     .area {
