@@ -22,17 +22,17 @@
         text-align: center;
         color: #2c3e50;
         margin-top: 60px;
-
     }
+
     @font-face {
         font-family: "Harabara Bold";
-        src: url("/web-fonts/ashcanbb_bold.ttf");
+        src: url("./assets/fonts/ashcanbb_bold.ttf") format('opentype'),
+      url("./assets/fonts/ashcanbb_bold.ttf");
 
     }
 
     html {
       font-family: "Harabara Bold";
-
       background-color: #370047;
         background-image: url("/img/purple-rider.png");
         background-position: center;

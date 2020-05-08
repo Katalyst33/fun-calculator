@@ -22,7 +22,7 @@
                         <div class="box-4">
                             <input @keyup.enter="checkAnswer" @input="submitButtonState" v-model="userAnswer"
                                    class="input is-large has-background-warning" type="number">
-                            <p class="has-text-white">Type  Answer</p>
+                            <p class="has-text-white">Type Answer</p>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
 
                     <div class="select is-medium mmb-4 my-md-0">
                         <select
-                                @change="selectOperator"
+                                @change="selectArithmeticOperator"
                                 v-model="difficultyLevel">
                             <option disabled value="">Select Difficulty
                             </option>
@@ -51,11 +51,11 @@
                     </div>
 
                     <div class="mt-5">
-                        <button @click="refresh" class="button is-white has-text-success mb-4 mb-md-0 is-large">
+                        <button @click="refreshGameValues"
+                                class="button is-white has-text-success mb-4 mb-md-0 is-large">
                             Refresh<i class="fad fa-lightbulb-on"></i></button>
                     </div>
                     <router-link to="/settings" class="button is-danger my-3"> Settings</router-link>
-
 
                     <div>
                         <h1 class="has-text-success has-text-centered is-size-1 pt-5">Score:{{userScore}}</h1>
@@ -75,12 +75,9 @@
                 <li>Duration: {{answerSpeed}}Secs</li>
                 <li>Difficulty: <span class="is-capitalized">{{difficultyLevel}}</span></li>
                 <li>
-                    <button @click="equals" class="button is-dark mx-4">Get answer</button>
+                    <button @click="equals" class="button is-primary mx-4">Get answer</button>
                 </li>
-
-
             </ul>
-
         </div>
 
     </div>
@@ -100,7 +97,7 @@
                 userScore: 0,
                 answerSpeed: 5,
                 buttonState: {
-                    submit: false,
+                    submit: true,
                     answer: true,
                 },
                 message: {
@@ -112,40 +109,40 @@
 
         created() {
             this.getRandomNumber()
-            this.randomiseOperator()
+            this.randomiseArithmeticOperator()
             this.submitButtonState()
         },
 
         mounted() {
-            this.refresh()
+            this.refreshGameValues()
         },
 
         methods: {
 
-            refresh() {
+            refreshGameValues() {
                 this.equals()
                 this.submitButtonState()
                 this.answer = null
                 this.userAnswer = null
                 this.getRandomNumber()
-                this.randomiseOperator()
+                this.randomiseArithmeticOperator()
             },
 
-            selectOperator() {
+            selectArithmeticOperator() {
                 if (this.operator === '*') {
-                    this.times()
+                    this.multiplication()
                 }
 
                 if (this.operator === '/') {
-                    this.divide()
+                    this.division()
                 }
 
                 if (this.operator === '+') {
-                    this.add()
+                    this.addition()
                 }
 
                 if (this.operator === '-') {
-                    this.minus()
+                    this.subtraction()
                 }
             },
 
@@ -189,23 +186,23 @@
                     // console.log(`correct Answer: ${typeof (this.answer)} user Answer${typeof (this.userAnswer)}`)
 
                 }
-                this.refresh()
+                this.refreshGameValues()
 
             },
 
-            times() {
+            multiplication() {
                 this.operation = (a, b) => a * b;
 
             },
-            minus() {
+            subtraction() {
                 this.operation = (a, b) => a - b;
 
             },
-            add() {
+            addition() {
                 this.operation = (a, b) => a + b;
 
             },
-            divide() {
+            division() {
                 this.operation = (a, b) => a / b;
 
             },
@@ -217,17 +214,22 @@
             },
 
             generateNumber() {
-                return Math.floor(Math.random() * (10) + 1);
+
+
+                let min = 10;
+                let max = 30;
+
+
+                return Math.floor(Math.random() * (max) + min);
 
             },
             getRandomNumber() {
                 this.valueA = this.generateNumber()
                 this.valueB = this.generateNumber()
-                this.operator = this.randomiseOperator()
+                this.operator = this.randomiseArithmeticOperator()
             },
 
-
-            randomiseOperator() {
+            randomiseArithmeticOperator() {
 
                 if (this.difficultyLevel === 'easy') {
                     this.operators = easyOperator
@@ -243,7 +245,7 @@
                 }
                 let selector = Math.floor(Math.random() * this.operators.length);
                 this.operator = this.operators[selector]
-                this.selectOperator()
+                this.selectArithmeticOperator()
             }
 
         }
