@@ -3,7 +3,8 @@ const easyGameLevel = {
 	score: 10,
 	min: 1,
 	max: 20,
-	options: 3,
+	options: 2,
+	refresh: 3,
 };
 const mediumGameLevel = {
 	arithmeticOperator: ["-", "+"],
@@ -11,20 +12,23 @@ const mediumGameLevel = {
 	min: 10,
 	max: 20,
 	options: 3,
+	refresh: 5,
 };
 const hardGameLevel = {
 	arithmeticOperator: ["-", "+", "*"],
 	score: 20,
 	min: 10,
 	max: 50,
-	options: 3,
+	options: 4,
+	refresh: 5,
 };
 const veryHardGameLevel = {
 	arithmeticOperator: ["-", "+", "*", "/"],
 	score: 25,
 	min: 1,
 	max: 50,
-	options: 3,
+	options: 5,
+	refresh: 3,
 };
 
 const levels = {
@@ -32,6 +36,9 @@ const levels = {
 	medium: mediumGameLevel,
 	hard: hardGameLevel,
 	veryHard: veryHardGameLevel,
+	options: 3,
+
+	refresh: 3,
 };
 
 module.exports = {

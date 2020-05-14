@@ -1,11 +1,11 @@
 <template>
     <div id="game">
         <div>
-
+            <h1 class="is-capitalized has-text-light is-size-3 ">{{difficultyLevel}} : Level</h1>
             <div class="columns">
-                <div class="column is-three-fifths is-offset-one-fifth ">
+                <div class="column is-three-fifths is-offset-one-fifth mx-2">
                     <div class="columns is-mobile">
-                        <div class="column ">
+                        <div class="column">
                             <h1 class="values has-text-light ">{{valueB}}</h1>
                         </div>
                         <div class="column">
@@ -18,37 +18,19 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
-            <div class="columns">
-                <div class="column is-three-fifths is-offset-one-fifth">
-
-                    <div>
-                        <input @keyup.enter="checkAnswer" v-model="userAnswer"
-                               class="input is-large has-background-warning" type="number">
-                        <p class="has-text-white">Type Answer</p>
-
-                    </div>
-                    <div id="answer" class=" field is-grouped mt-5">
-                        <div v-for="(answerOption, index) in answerOptions" :key="index" class="control">
-                            <h1 @click="buttonAnswer(answerOption)"
-                                class="is-size-1 has-text-danger answer-button px-5"> {{answerOption}}</h1>
-                        </div>
-                    </div>
+            <div class="columns is-mobile is-multiline">
+                <div v-for="(answerOption, index) in answerOptions" :key="index" class="column">
+                    <h1 @click="checkButtonAnswer(answerOption)"
+                        class="is-size-1 has-text-danger answer-button px-5"> {{answerOption}}</h1>
                 </div>
 
             </div>
 
+
             <div class="columns is-mobile">
                 <div class="column is-half is-offset-one-quarter">
-
-                    <div class="py-5">
-                        <button :disabled="disableButton" @click="checkAnswer" class="button is-success is-large">
-                            Submit Answer
-                        </button>
-                    </div>
-
                     <div class="select is-medium mmb-4 my-md-0">
                         <select
 
@@ -65,7 +47,7 @@
                     <div class="mt-5">
                         <button @click="refreshGameValues"
                                 class="button is-white has-text-success mb-4 mb-md-0 is-large">
-                            Refresh<i class="fad fa-lightbulb-on"></i></button>
+                            Refresh<span class="px-1">({{userScore}})</span></button>
                     </div>
                     <router-link to="/settings" class="button is-danger my-3"> Settings</router-link>
 
@@ -85,7 +67,7 @@
                     <button @click="calculateAnswer" class="button is-primary mx-4">Get answer</button>
                 </li>
                 <li>Correct Answer:{{answer}}</li>
-                <li>User Answer:{{userAnswer}}</li>
+
                 <li>Score:{{userScore}}</li>
                 <li>Duration: {{answerSpeed}}Secs</li>
                 <li>Difficulty: <span class="is-capitalized">{{difficultyLevel}}</span></li>
@@ -126,9 +108,9 @@
 				valueB: null,
 				answer: null,
 				answerOptions: [],
-				userAnswer: null,
 				difficultyLevel: "easy",
 				operator: null,
+				refresh: null,
 				userScore: 0,
 				answerSpeed: 5,
 				disableButton: true,
@@ -144,15 +126,10 @@
 				this.onLevelChange();
 			},
 
-			userAnswer() {
-				this.submitButtonState();
-			},
+
 		},
 
 		computed: {
-			userAnswerToNumber() {
-				return Number(this.userAnswer);
-			},
 
 			x() {
 				return Number(this.valueB);
@@ -191,9 +168,6 @@
 			},
 
 
-			submitButtonState() {
-				this.disableButton = this.userAnswer === null;
-			},
 			refreshGameValues() {
 				this.onLevelChange();
 			},
@@ -207,12 +181,12 @@
 				} else if (this.operator === "-") {
 					this.answer = this.subtraction();
 				}
+				return this.answer;
 			},
-			checkAnswer() {
-				this.calculateAnswer();
 
+			checkButtonAnswer(answerOption) {
 
-				if (this.answer === this.userAnswerToNumber) {
+				if (answerOption === this.calculateAnswer()) {
 					this.$swal.fire({
 						title: "Correct !",
 						text: this.message.correct,
@@ -232,6 +206,12 @@
 						imageAlt: "Custom image",
 					}).then(this.refreshGameValues);
 				}
+
+				// alert(`value: ${answerOption}`);
+				// return answerOption;
+
+				// console.log(this.calculateAnswer())
+
 			},
 			onWin() {
 				this.setScorePoints();
@@ -269,15 +249,11 @@
 			},
 			onLevelChange() {
 				this.answer = null;
-				this.userAnswer = null;
+
 				this.randomiseArithmeticOperator();
 				this.getRandomNumber();
 				this.generateArrayOptions();
 				this.addAnswer();
-			},
-
-			buttonAnswer(answerOption) {
-				alert(`value: ${answerOption}`);
 			},
 
 
@@ -291,7 +267,7 @@
 
 
 			},
-          //randomise array
+			//randomise array
 			shuffleArray() {
 				return Math.floor(Math.random() * this.gameLevel.options);
 
@@ -299,7 +275,7 @@
 			// add answer to array
 
 			addAnswer() {
-							this.calculateAnswer();
+				this.calculateAnswer();
 				this.answerOptions.splice(this.shuffleArray(), 0, this.answer);
 
 
