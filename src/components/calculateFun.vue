@@ -32,7 +32,8 @@
                     </div>
                     <div id="answer" class=" field is-grouped mt-5">
                         <div v-for="(answerOption, index) in answerOptions" :key="index" class="control">
-                            <h1 class="is-size-1 has-text-danger answer-button px-5"> {{answerOption}}</h1>
+                            <h1 @click="buttonAnswer(answerOption)"
+                                class="is-size-1 has-text-danger answer-button px-5"> {{answerOption}}</h1>
                         </div>
                     </div>
                 </div>
@@ -115,7 +116,7 @@
 
 <script>
 	// import { firstValue, secondValue } from "../../numberGenerator";
-	import { levels } from "../../gameController";
+	import { levels } from "../../gameSettings";
 
 
 	export default {
@@ -124,9 +125,7 @@
 				valueA: null,
 				valueB: null,
 				answer: null,
-				answerOptions: [
-					2, 4, 6, 8,
-				],
+				answerOptions: [],
 				userAnswer: null,
 				difficultyLevel: "easy",
 				operator: null,
@@ -273,11 +272,40 @@
 				this.userAnswer = null;
 				this.randomiseArithmeticOperator();
 				this.getRandomNumber();
+				this.generateArrayOptions();
+				this.addAnswer();
 			},
 
-          buttonAnswer(){
-				alert('value')
-          }
+			buttonAnswer(answerOption) {
+				alert(`value: ${answerOption}`);
+			},
+
+
+			//generate array of random options
+			generateArrayOptions() {
+				this.answerOptions = Array.from(
+					{ length: this.gameLevel.options },
+					() =>
+						Math.floor(Math.random() * (this.gameLevel.max - this.gameLevel.min)) + this.gameLevel.min,
+				);
+
+
+			},
+          //randomise array
+			shuffleArray() {
+				return Math.floor(Math.random() * this.gameLevel.options);
+
+			},
+			// add answer to array
+
+			addAnswer() {
+							this.calculateAnswer();
+				this.answerOptions.splice(this.shuffleArray(), 0, this.answer);
+
+
+			},
+
+
 		},
 
 	};
@@ -287,7 +315,6 @@
 
     #game {
         font-family: 'Balsamiq Sans', cursive;
-
     }
 
 
@@ -310,11 +337,11 @@
         font-size: 80px;
     }
 
-    #answer {
-        width: auto;
-        margin: 0 auto;
+    /*  #answer {
+          width: 20%;
+          margin: 0 auto;
 
-    }
+      }*/
 
 
     .answer-button {
@@ -324,10 +351,9 @@
         background-position: center;
         cursor: pointer;
     }
+
     .answer-button:hover {
-        /*padding: 2px 2px 2px 2px;*/
-        /*background-color: #00aa91;*/
-        filter:brightness(80%);
+        filter: brightness(80%);
     }
 
     #debug {
